@@ -36,6 +36,16 @@
       </label>
     </div>
 
+    <!-- Toggle for third-party involvement -->
+    <div class="flex items-center justify-between mb-6">
+      <label for="thirdPartyToggle" class="font-medium">This feature involves a third-party tool</label>
+      <input 
+        type="checkbox" 
+        id="thirdPartyToggle" 
+        class="accent-green-600 w-5 h-5"
+      />
+    </div>
+
     <button 
       id="estimateBtn" 
       onclick="sendInput()" 
@@ -69,6 +79,7 @@
 
     async function sendInput() {
       const input = document.getElementById('userInput').value.trim();
+      const thirdParty = document.getElementById('thirdPartyToggle').checked;
       const resultDiv = document.getElementById('result');
       const spinner = document.getElementById('spinner');
       
@@ -79,7 +90,10 @@
         const response = await fetch('https://n8n.swapcard.com/n8nhook/9478b228-a498-4e95-a755-61193fa7f6f9', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ texte: input })
+          body: JSON.stringify({ 
+            texte: input,
+            thirdPartyInvolved: thirdParty
+          })
         });
 
         if (!response.ok) throw new Error("Erreur HTTP");
